@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
+import nltk
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 from nltk.corpus import stopwords
@@ -9,6 +10,9 @@ from nltk.corpus import wordnet as wn
 import re
 import numpy as np
 
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
 
 def tfidf_vec(cats_df):
     vocabulary = set()
@@ -67,7 +71,6 @@ def cosine_similarity_T(cats_df, user_row_df, k=4):
     q_df = pd.DataFrame(columns=['q_clean'])
     q_df.loc[0,'q_clean'] = tokens
     q_df['q_clean'] = transform(q_df.q_clean)
-    print(q_df.q_clean)
     d_cosines = []
 
     query_vector = gen_vector_T(cats_df,q_df['q_clean'])
@@ -85,11 +88,9 @@ def cosine_similarity_T(cats_df, user_row_df, k=4):
         a.loc[j,'score'] = simScore
 
     a['user_id_hash'] = user_row_df.user_id_hash.values[0]
-    print(a)
     rec_dict = a.groupby('user_id_hash')[['catalog_item_id','catalog_item_name', 'score']]\
         .apply(lambda x: x.set_index('catalog_item_id').to_dict(orient='index'))\
         .to_dict()
 
-    print(rec_dict)
     return rec_dict
 

@@ -12,7 +12,7 @@ def health_check():
     return "I'm healthy!"
 
 @app.route('/invocations', methods=['POST'])
-def story_clusters():
+def find_recommendations():
 
     try:
         user_data = request.get_json()
@@ -23,10 +23,12 @@ def story_clusters():
     if not is_acceptable(user_data): abort(400)
 
     print('successfully received data')
+    print(user_data)
     user_id, user_id_hash = list(user_data.items())[0]
 
     if len(user_id_hash) > 1:
         print("Please only call one user_id_hash at a time")
+        abort(400)
 
     response = processRecommendations(str(user_id_hash[0]))
 
@@ -55,4 +57,4 @@ def is_acceptable(data):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8081)
