@@ -5,15 +5,11 @@ import pandas as pd
 
 db_user = 'drizly_user'
 db_password = 'DRIZLY2021'
-db_host = 'drizly-categories-table.cpby0wrcbicx.us-east-2.rds.amazonaws.com'
+db_host = 'drizly.cpby0wrcbicx.us-east-2.rds.amazonaws.com'
 db_database = 'drizly'
 
 
 def search(user_id):
-        if user_id:
-            pass
-        else:
-            print('user_id_hash must be included in api call')
 
         db_connection_str = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_database}"
         db_connection = create_engine(db_connection_str)

@@ -23,7 +23,6 @@ def find_recommendations():
     if not is_acceptable(user_data): abort(400)
 
     print('successfully received data')
-    print(user_data)
     user_id, user_id_hash = list(user_data.items())[0]
 
     if len(user_id_hash) > 1:
